@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react
 
 const CategoryMeal = props => {
     return (
-        <TouchableOpacity style={styles.mealItem} activeOpacity='0.7'>
+        <TouchableOpacity style={styles.mealItem} activeOpacity='0.7' onPress={props.onClick}>
             <View style={styles.container}>
                 <View style={styles.header}>
                     <ImageBackground source={{ uri: props.imageURL }} style={styles.bgImage}>

@@ -10,9 +10,10 @@ const CategoriesScreen = props => {
         return (
             <CategoryGridTile title={data.item.title} color={data.item.color} onClick={() => {
                 props.navigation.navigate({
-                    routeName: 'CategoryMeals',
+                    name: 'CategoryMeals',
                     params: {
                         categoryId: data.item.id,
+                        categoryTitle: data.item.title,
                     }
                 });
             }}
@@ -29,10 +30,6 @@ const CategoriesScreen = props => {
         />
 
     );
-};
-
-CategoriesScreen.navigationOptions = {
-    headerTitle: 'Categories',
 };
 
 const styles = StyleSheet.create({

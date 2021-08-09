@@ -6,8 +6,9 @@ import { CATEGORIES, MEALS } from '../data/dummy-data';
 
 const CategoryMealsScreen = props => {
 
-    const catId = props.navigation.getParam('categoryId');
-    const categoryMeals = MEALS.filter((item) => item.categoryIds.indexOf(catId) != -1);
+    const { categoryId } = props.route.params;
+    const category = CATEGORIES.find((item) => item.id === categoryId);
+    const categoryMeals = MEALS.filter((item) => item.categoryIds.indexOf(categoryId) != -1);
 
     const renderMealItem = (data) => {
         return (
@@ -17,6 +18,14 @@ const CategoryMealsScreen = props => {
                 complexity={data.item.complexity}
                 affordability={data.item.affordability}
                 imageURL={data.item.imageUrl}
+                onClick={() => {
+                    props.navigation.navigate({
+                        name: 'MealsDetails',
+                        params: {
+                            meal: data.item,
+                        }
+                    })
+                }}
             />
         )
     }
@@ -30,16 +39,6 @@ const CategoryMealsScreen = props => {
         </View>
     );
 }
-
-CategoryMealsScreen.navigationOptions = (navigationData) => {
-
-    const catId = navigationData.navigation.getParam('categoryId');
-    const category = CATEGORIES.find((item) => item.id === catId);
-
-    return {
-        headerTitle: category.title,
-    }
-};
 
 const styles = StyleSheet.create({
     screen: {
