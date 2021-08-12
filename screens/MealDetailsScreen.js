@@ -1,23 +1,46 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { View, Text, StyleSheet, Image } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 
-import HeaderButton from '../components/HeaderButton'
 import Colors from '../constants/Colors';
+
+const ListItem = props => {
+    return (
+        <View style={styles.listItem}>
+            <Text >{props.children}</Text>
+        </View>
+    )
+}
 
 const MealDetailsScreen = props => {
 
-    const {meal} = props.route.params;
+    const { meal } = props.route.params;
 
     return (
-        <View style={styles.screen}>
-            <View style={styles.mealDetailCard}>
-                <Text style={styles.title}>{meal.title}</Text>
 
-                <Text>{meal.ingredients}</Text>
+        <ScrollView >
+            <View style={styles.screen}>
 
+                <View style={styles.container} >
+                    <Image source={{ uri: meal.imageUrl }} style={styles.image} />
+
+                    <View style={styles.highlights} >
+                        <Text> {meal.duration} </Text>
+                        <Text> {meal.complexity} </Text>
+                        <Text> {meal.affordability} </Text>
+                    </View>
+                </View>
+
+                <Text style={styles.maintitle}> {meal.title} </Text>
+
+                <Text style={styles.title} > Ingredients </Text>
+                {meal.ingredients.map(ingredient => (<ListItem key={ingredient} style={styles.listItem} > {ingredient} </ListItem>))}
+
+
+                <Text style={styles.title}> Steps </Text>
+                {meal.steps.map(step => (<ListItem key={step} style={styles.listItem} > {step} </ListItem>))}
             </View>
-        </View>
+        </ScrollView>
     );
 }
 
@@ -26,12 +49,28 @@ const styles = StyleSheet.create({
         padding: 20,
         paddingTop: 40,
         flex: 1,
-        alignItems: 'center'
+        backgroundColor: 'white'
     },
-    title: {
+    maintitle: {
         fontSize: 20,
         color: Colors.secondaryColor,
-        marginBottom: 20,
+        marginVertical: 20,
+        textAlign: 'center',
+        fontWeight: 'bold'
+    },
+    container: {
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: 'black',
+        overflow: 'hidden',
+        width: '100%',
+        height: 220
+    },
+    title: {
+        fontSize: 18,
+        textAlign: 'center',
+        marginVertical: 10,
+        fontWeight: 'bold'
     },
     mealDetailCard: {
         borderColor: 'black',
@@ -46,7 +85,29 @@ const styles = StyleSheet.create({
         shadowRadius: 7,
         shadowOpacity: 0.2,
         padding: 5
+    },
+    image: {
+        width: '100%',
+        height: 200
+    },
+    highlights: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        borderColor: 'gray',
+        borderWidth: 1,
+        backgroundColor: 'lightgray'
+    },
+    listItem: {
+        marginHorizontal: 15,
+        marginVertical: 5,
+        borderColor: 'gray',
+        borderWidth: 1,
+        padding: 3,
+        height: 30,
+        justifyContent: 'center',
+        backgroundColor: 'white'
     }
+
 });
 
 export default MealDetailsScreen;
