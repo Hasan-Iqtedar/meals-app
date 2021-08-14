@@ -14,17 +14,6 @@ import FavouritesScreen from '../screens/FavouritesScreen';
 import FiltersScreen from '../screens/FiltersScreen';
 import Colors from '../constants/Colors';
 
-const addMarkAsFavourteButton = () => (
-    <HeaderButtons HeaderButtonComponent={HeaderButton} >
-        <Item
-            title='Favourite'
-            iconName='ios-star'
-            onPress={() => { console.log("lol") }
-            }
-        />
-    </HeaderButtons>
-);
-
 const addHeaderMenuButton = (openMenu) => (
     <HeaderButtons HeaderButtonComponent={HeaderButton} >
         <Item
@@ -73,10 +62,9 @@ function MealsNavigatorScreen({ navigation }) {
             <MealsNavigatorStack.Screen
                 name="MealDetails"
                 component={MealDetailsScreen}
-                options={ ({route}) => ({
-                    title: route.params.meal.title,
-                    headerRight: addMarkAsFavourteButton
-                })}
+                options={{
+                    title: 'Meal Details'
+                }}
             />
 
         </MealsNavigatorStack.Navigator>
@@ -100,10 +88,9 @@ function FavouriteMealsScreen() {
             <FavouriteMealsStack.Screen
                 name='Meal Details'
                 component={MealDetailsScreen}
-                options={ ({route}) => ( {
-                    headerTitle: route.params.meal.title,
-                    headerRight: addMarkAsFavourteButton
-                })}
+                options={{
+                    title: 'Meal Details'
+                }}
             />
 
         </FavouriteMealsStack.Navigator>
@@ -162,7 +149,7 @@ function FilterMealsScreen({ navigation }) {
             <FilterMealsStack.Screen name='filters' component={FiltersScreen}
                 options={{
                     headerLeft: addHeaderMenuButton.bind(this, () => navigation.toggleDrawer()),
-                    
+
                 }}
             />
         </FilterMealsStack.Navigator>

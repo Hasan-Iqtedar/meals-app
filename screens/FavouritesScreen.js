@@ -1,26 +1,36 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { useSelector } from 'react-redux';
+
 import MealsList from '../components/MealsList';
-import { MEALS } from '../data/dummy-data';
 
 const FavouritesScreen = props => {
 
-    const favMeals = MEALS.filter((meal) => meal.id == 'm1' || meal.id == 'm2');
+    const availableMeals = useSelector(state => state.meals.favouriteMeals)
 
-    return (
-        <MealsList
-            data={favMeals}
-            navigation={props.navigation}
-            componentName="Meal Details"
-        />
-    )
+    if (useSelector(state => state.meals.favouriteMeals).length == 0) {
+        return (
+            <View style={styles.text}>
+                <Text>No Favourites found.</Text>
+            </View>
+        )
+    }
+    else {
+        return (
+            <MealsList
+                data={availableMeals}
+                navigation={props.navigation}
+                componentName="Meal Details"
+            />
+        )
+    }
 }
 
 const styles = StyleSheet.create({
-    screen: {
+    text: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     }
 });
 

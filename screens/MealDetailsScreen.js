@@ -1,7 +1,10 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import React, { useLayoutEffect, useCallback } from 'react';
+import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
+import HeaderButton from '../components/HeaderButton'
+import { toggleFavourite } from '../store/actions/meals';
 import Colors from '../constants/Colors';
 
 const ListItem = props => {
@@ -15,6 +18,29 @@ const ListItem = props => {
 const MealDetailsScreen = props => {
 
     const { meal } = props.route.params;
+
+    const dispatchAction = useDispatch();
+
+    const toggleFavuriteActionHandler = useCallback(() => {
+        dispatchAction(toggleFavourite(meal.id));
+    }, [dispatchAction, meal.id])
+
+    const isFav = useSelector(state => state.meals.favouriteMeals).some(favmeal => favmeal.id == meal.id)
+
+    useLayoutEffect(() => {
+        props.navigation.setOptions({
+            headerRight: () => (
+                <HeaderButtons HeaderButtonComponent={HeaderButton} >
+                    <Item
+                        title='Favourite'
+                        iconName={ isFav ? 'ios-star' : 'ios-star-outline'}
+                        onPress={toggleFavuriteActionHandler}
+                    />
+                </HeaderButtons>
+            )
+        })
+
+    }, [toggleFavuriteActionHandler, isFav]);
 
     return (
 
@@ -103,7 +129,6 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         borderWidth: 1,
         padding: 3,
-        height: 30,
         justifyContent: 'center',
         backgroundColor: 'white'
     }
